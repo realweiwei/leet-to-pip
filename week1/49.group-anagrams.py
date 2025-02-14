@@ -67,11 +67,15 @@ class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         dict_ = {}
         for word in strs:
+            # list is not hashable, so we call tuple() to make it hashable
+            # sorted() rearranges the characters of a word in alphabetical order
             sorted_word = tuple(sorted(word))
             if sorted_word not in dict_:
+                # lists are mutable by default
                 dict_[sorted_word] = [word]
             else:
                 dict_[sorted_word].append(word)
+        # dict.values() is not a list, but a dynamic view of dict's values
         return list(dict_.values())
         
 # @lc code=end
