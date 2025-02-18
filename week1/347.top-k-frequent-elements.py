@@ -42,15 +42,29 @@
 
 # @lc code=start
 from collections import Counter
+import heapq
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        counter = Counter(nums)
-        res = []
-        for [num, count] in counter.most_common(k):
-            res.append(num)
+        # hacky way
+        # counter = Counter(nums)
+        # res = []
+        # for [num, count] in counter.most_common(k):
+        #     res.append(num)
+        # return res
+        
+        counter = {}
+        for i in range(len(nums)):
+            counter[nums[i]] = counter.get(nums[i], 0) + 1
+        heap = [] # min heap
+        for num, freq in counter.items(): 
+            heapq.heappush(heap, [freq, num])
+            if len(heap) > k: # if the heap's size > k, pop
+                heapq.heappop(heap)
+        res = [0] * k
+        for i in range(k-1, -1, -1):
+            res[i] = heapq.heappop(heap)[1]
         return res
-
         
 # @lc code=end
 
